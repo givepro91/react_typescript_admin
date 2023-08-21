@@ -16,7 +16,7 @@ const Topbar = () => {
     >
       <Toolbar>
         <Typography variant="h6">
-          React Admin Template
+          Landbook ADMIN
         </Typography>
       </Toolbar>
     </AppBar>

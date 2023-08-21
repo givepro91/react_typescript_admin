@@ -3,19 +3,21 @@ import {
   BrowserRouter,
   Navigate,
   Route,
-  Routes,
+  Routes
 } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import { routes } from "./routes";
 import LoginPage from "./pages/auth/LoginPage";
 
 function App() {
-  let isAuthorized = sessionStorage.getItem("isAuthorized");
-  console.log("isAuthorized", isAuthorized)
+  // const navigate = useNavigate();
+  // sessionStorage.clear()
+  let isAuthorized = sessionStorage.getItem("accessToken");
+  console.log("sessionStorage", sessionStorage)
 
   return (
     <BrowserRouter>
-      {(isAuthorized == null || !isAuthorized) ? <Navigate to="/login" replace /> : ""}
+      {!isAuthorized ? <Navigate to="/login" replace={true}/> : null}
       <Routes>
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/" element={<MainLayout />}>

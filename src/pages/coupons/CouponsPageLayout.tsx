@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 
-const OrdersPageLayout = () => {
+const CouponsPageLayout = () => {
   return (
     <><Outlet /></>
   );
 };
 
-export default OrdersPageLayout;
+export default CouponsPageLayout;

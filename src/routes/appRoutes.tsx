@@ -14,6 +14,8 @@ import OrdersPageLayout from "../pages/orders/OrdersPageLayout";
 import CreateOrderPage from "../pages/orders/CreateOrderPage";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import LoginPage from "../pages/auth/LoginPage";
+import CouponsPageLayout from "../pages/coupons/CouponsPageLayout";
+import CreateCouponPage from "../pages/coupons/CreateCouponPage";
 
 const appRoutes: RouteType[] = [
   {
@@ -49,13 +51,32 @@ const appRoutes: RouteType[] = [
         },
       },
       {
-        path: "/orders/create",
+        path: "/orders/search",
         element: <CreateOrderPage />,
-        state: "orders.create",
+        state: "orders.search",
         sidebarProps: {
           displayText: "주문 조회"
         },
       }
+    ]
+  },
+  {
+    path: "/coupons",
+    element: <CouponsPageLayout />,
+    state: "coupons",
+    sidebarProps: {
+      displayText: "쿠폰",
+      icon: <AppsOutlinedIcon />
+    },
+    child: [
+      {
+        path: "/coupons/create",
+        element: <CreateCouponPage />,
+        state: "coupons.create",
+        sidebarProps: {
+          displayText: "쿠폰 생성"
+        },
+      },
     ]
   },
   {
