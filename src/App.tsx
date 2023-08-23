@@ -13,7 +13,7 @@ function App() {
   // const navigate = useNavigate();
   // sessionStorage.clear()
   let isAuthorized = sessionStorage.getItem("accessToken");
-  console.log("sessionStorage", sessionStorage)
+  // console.log("sessionStorage", sessionStorage)
 
   return (
     <BrowserRouter>

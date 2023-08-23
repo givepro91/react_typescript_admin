@@ -14,26 +14,27 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { useState } from "react";
-import axios from "axios";
+import PaymentApi from "../../modules/payment";
+import { CreateCouponResponse } from "../../model/CouponModel";
 
 export default function CreateCouponPage() {
+  const api = new PaymentApi();
   /* Modal */
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    bgcolor: "background.paper",
+    border: "2px solid #000",
     boxShadow: 24,
     p: 4,
   };
-  
 
   const couponTypeList = [
     { name: "PREMIUM", value: "PREMIUM" },
@@ -64,14 +65,14 @@ export default function CreateCouponPage() {
     const { name, value } = e.target;
     setCouponData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value || "",
     }));
   };
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     setCouponData((prevData) => ({
       ...prevData,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value || "",
     }));
   };
 
@@ -80,52 +81,31 @@ export default function CreateCouponPage() {
     input.value = input.value.replace(/\D/g, "");
   };
 
-  const isCouponDataValid = () => {
-    // Perform validation here
-    return (
-      couponData.count > 0 &&
-      couponData.expiredDate !== "" &&
-      couponData.value > 0 &&
-      (couponData.couponCode !== "" || couponData.prefix !== "") &&
-      couponData.discountType !== "" &&
-      couponData.couponTrait !== "" &&
-      couponData.couponType !== "" &&
-      couponData.name !== "" &&
-      couponData.contents !== ""
-    );
-  };
+  const [couponResult, setCouponResult] = useState<CreateCouponResponse[]>(
+    [] || null
+  );
+  const handleCreateCoupon = async () => {
+    try {
+      const res = await api.createCoupon(couponData);
+      console.log(res); // For debugging
 
-  const onSubmit = async () => {
-    const userToken = sessionStorage.getItem("isAuthorized");
-
-    console.log(couponData);
-    if (!isCouponDataValid()) {
-      alert("Invalid coupon data");
-      return;
-    }
-
-    if (couponData.couponCode === "" || couponData.prefix !== "") {
-      couponData.couponCode = null;
-    }
-
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/payment/admin/coupons`,
-        JSON.stringify(couponData),
-        {
-          headers: {
-            "Content-Type": `application/json`,
-            Authorization: `Bearer ${userToken}`,
-          },
+      if ('status' in res) {
+        const responseData = res.data;
+        // Now you can work with responseData
+        console.log("responseData", responseData)
+        if (res.status === 200) {
+          setCouponResult(res.data as Array<CreateCouponResponse>); // Update the state with the response data
+          handleOpen();
         }
-      )
-      .then((response) => {
-        console.log(response.data);
-        //setOrder(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      } else {
+        // Handle the case when res is an empty array (never[])
+        alert("쿠폰 생성 시 오류가 발생했습니다. 관리자에게 문의해주세요.")
+      }
+    } catch (error) {
+      setCouponResult([]); // Handle the error case by updating state accordingly
+      console.log(error);
+      alert(error);
+    }
   };
 
   return (
@@ -144,6 +124,7 @@ export default function CreateCouponPage() {
                 name="couponTrait"
                 label="쿠폰 구분"
                 onChange={handleSelectChange}
+                value={couponData.couponTrait}
               >
                 {couponTraitList.map((key) => (
                   <MenuItem key={key.value} value={key.value}>
@@ -162,6 +143,7 @@ export default function CreateCouponPage() {
                 name="couponType"
                 label="쿠폰 종류"
                 onChange={handleSelectChange}
+                value={couponData.couponType}
               >
                 {couponTypeList.map((key) => (
                   <MenuItem key={key.value} value={key.value}>
@@ -180,6 +162,7 @@ export default function CreateCouponPage() {
                 name="discountType"
                 label="쿠폰 종류"
                 onChange={handleSelectChange}
+                value={couponData.discountType}
               >
                 {discountTypeList.map((key) => (
                   <MenuItem key={key.value} value={key.value}>
@@ -280,10 +263,11 @@ export default function CreateCouponPage() {
             <Button
               variant="contained"
               sx={{ mt: 3, ml: 1 }}
-              onClick={onSubmit}
+              onClick={handleCreateCoupon}
             >
               Create
             </Button>
+            {/* <Button onClick={handleOpen}>Modal</Button> */}
           </Box>
         </React.Fragment>
       </Container>
@@ -295,10 +279,12 @@ export default function CreateCouponPage() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            쿠폰 생성 결과
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            {couponResult.map((coupon, index) => (
+              <p key={index}>{coupon}</p>
+            ))}
           </Typography>
         </Box>
       </Modal>

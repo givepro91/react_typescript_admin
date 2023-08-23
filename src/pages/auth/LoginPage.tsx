@@ -10,20 +10,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import * as auth from "../../modules/auth";
-import { useNavigate } from "react-router-dom";
+import AuthApi from "../../modules/auth";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function LoginPage() {
-  let isAuthorized = sessionStorage.getItem("isAuthorized");
-  let navigate = useNavigate();
-  // React.useEffect(() => {
-  //   if (isAuthorized) {
-  //     navigate("/")
-  //   }
-  // })
+  const api = new AuthApi();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,7 +34,7 @@ export default function LoginPage() {
     }
 
     if (username !== null && password !== null) {
-      auth.login(username.toString(), password.toString()).then((token) => {
+      api.login(username.toString(), password.toString()).then((token) => {
         console.log("token", token)
         if (token != null) {
           // navigate("/")

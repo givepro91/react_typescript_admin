@@ -4,7 +4,7 @@ type Props = {}
 
 const CreateOrderPage = (props: Props) => {
   return (
-    <div>CreateOrderPage</div>
+    <div>준비중입니다.</div>
   )
 }
 

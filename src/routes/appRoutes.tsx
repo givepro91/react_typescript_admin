@@ -79,42 +79,42 @@ const appRoutes: RouteType[] = [
       },
     ]
   },
-  {
-    path: "/component",
-    element: <ComponentPageLayout />,
-    state: "component",
-    sidebarProps: {
-      displayText: "Components",
-      icon: <AppsOutlinedIcon />
-    },
-    child: [
-      {
-        path: "/component/alert",
-        element: <AlertPage />,
-        state: "component.alert",
-        sidebarProps: {
-          displayText: "Alert"
-        },
-      },
-      {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
-        sidebarProps: {
-          displayText: "Button"
-        }
-      }
-    ]
-  },
-  {
-    path: "/documentation",
-    element: <DocumentationPage />,
-    state: "documentation",
-    sidebarProps: {
-      displayText: "Documentation",
-      icon: <ArticleOutlinedIcon />
-    }
-  },
+  // {
+  //   path: "/component",
+  //   element: <ComponentPageLayout />,
+  //   state: "component",
+  //   sidebarProps: {
+  //     displayText: "Components",
+  //     icon: <AppsOutlinedIcon />
+  //   },
+  //   child: [
+  //     {
+  //       path: "/component/alert",
+  //       element: <AlertPage />,
+  //       state: "component.alert",
+  //       sidebarProps: {
+  //         displayText: "Alert"
+  //       },
+  //     },
+  //     {
+  //       path: "/component/button",
+  //       element: <ButtonPage />,
+  //       state: "component.button",
+  //       sidebarProps: {
+  //         displayText: "Button"
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "/documentation",
+  //   element: <DocumentationPage />,
+  //   state: "documentation",
+  //   sidebarProps: {
+  //     displayText: "Documentation",
+  //     icon: <ArticleOutlinedIcon />
+  //   }
+  // },
 ];
 
 export default appRoutes;
