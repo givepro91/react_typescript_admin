@@ -16,6 +16,7 @@ import DashboardPage from "../pages/dashboard/DashboardPage";
 import LoginPage from "../pages/auth/LoginPage";
 import CouponsPageLayout from "../pages/coupons/CouponsPageLayout";
 import CreateCouponPage from "../pages/coupons/CreateCouponPage";
+import RegisterCouponPage from "../pages/coupons/RegisterCouponPage";
 
 const appRoutes: RouteType[] = [
   {
@@ -75,6 +76,14 @@ const appRoutes: RouteType[] = [
         state: "coupons.create",
         sidebarProps: {
           displayText: "쿠폰 생성"
+        },
+      },
+      {
+        path: "/coupons/register",
+        element: <RegisterCouponPage />,
+        state: "coupons.register",
+        sidebarProps: {
+          displayText: "쿠폰 등록"
         },
       },
     ]

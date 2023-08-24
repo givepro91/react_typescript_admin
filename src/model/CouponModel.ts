@@ -16,3 +16,8 @@ export interface CreateCouponResponse {
 }
 
 export interface CreateCouponResponse extends Array<CreateCouponResponse> {}
+
+export interface RegisterCouponModel {
+  couponCodes: [],
+  userIds: []
+}
